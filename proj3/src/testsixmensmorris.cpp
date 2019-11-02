@@ -3,10 +3,76 @@
 
 TEST(SixMensMorrisBoardTest, DefaultBoardTest){
     // Needs to test that default board is correct
+	CSixMensMorrisBoard board;
+	int UnplacedR = board.UnplacedPieces('R');
+	int UnplacedW = board.UnplacedPieces('W');
+
+	EXPECT_TRUE(UnplacedR == SIX_MENS_MORRIS_PIECES);
+	EXPECT_TRUE(UnplacedW == SIX_MENS_MORRIS_PIECES);
+
+	EXPECT_EQ(board.PlayerTurn(), SIX_MENS_MORRIS_PLAYER_R);
+	for (int index = 0; index < SIX_MENS_MORRIS_POSITIONSl index++) {
+		EXPECT_EQ(board.PlayerAtPosition(index), SIX_MENS_MORRIS_EMPTY);
+	}
+	EXPECT_EQ(std::string(board), ">RU:6 RC:0 WU:6 WC:0\n"
+								  "o---------o---------o	0---1---2\n"
+								  "|		 |		   |	| 3-4-5 |\n"
+								  "|		 |		   |	6-7   8-9\n"
+								  "|	o----o----o    |	| A-B-c |\n"
+								  "|	|		  |	   |	D---E---F\n"
+								  "|    |         |    |      LEGEND\n"
+								  "o----o         o----o\n"
+								  "|    |         |    |\n"
+								  "|    |         |    |\n"
+								  "|    o----o----o    |\n"
+								  "|         |         |\n"
+								  "|         |         |\n"
+								  "o---------o---------o\n"
+																);
+	//EXPECT_FALSE(board.GameOver());
+	EXPECT_EQ(std::string(board), board.ToString());
 }
 
 TEST(SixMensMorrisBoardTest, SetBoardTest){
     // Needs to test that setting board is correct
+	//discussion code
+	char turn = SIX_MENS_MORRIS_PLAYER_W;
+	int unplaced[SIX_MENS_MORRIS_PLAYERS] = { 2,3 };
+	char positions[SIX_MENS_MORRIS_POSITIONS] = { SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_PLAYER_W, SIX_MENS_MORRIS_PLAYER_R,
+												  SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY,
+												  SIX_MENS_MORRIS_PLAYER_W, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_PLAYER_W,
+												  SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY,
+												  SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_PLAYER_R
+																															};
+	char previous[SIX_MENS_MORRIS_POSITIONS] = { SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_PLAYER_W, SIX_MENS_MORRIS_PLAYER_R,
+												 SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY,
+												 SIX_MENS_MORRIS_PLAYER_W, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_PLAYER_W,
+												 SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY,
+											     SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_EMPTY
+	};
+	CSixMensMorrisBoard board(turn, unplaced, positions, previous);
+	//EXPECT_EQ(board.PlayerTurn(), SIX_MENS_MORRIS_PLAYER_W);
+	for(int index = 0; index < SIX_MENS_MORRIS_POSITIONS; index++){
+		EXPECT_EQ(board.PlayerAtPosition(index), positions[index]);
+	EXPECT_EQ(board.UnplacedPieces(SIX_MENS_MORRIS_PLAYER_R), unplaced[0]);
+	EXPECT_EQ(board.UnplacedPieces(SIX_MENS_MORRIS_PLAYER_W), unplaced[1]);
+	EXPECT_EQ(std::string(board), ">RU:6 RC:0 WU:6 WC:0\n"
+								  "o---------o---------o	0---1---2\n"
+								  "|		 |		   |	| 3-4-5 |\n"
+								  "|		 |		   |	6-7   8-9\n"
+								  "|	o----o----o    |	| A-B-c |\n"
+								  "|	|		  |	   |	D---E---F\n"
+								  "|    |         |    |      LEGEND\n"
+								  "o----o         o----o\n"
+								  "|    |         |    |\n"
+								  "|    |         |    |\n"
+								  "|    o----o----o    |\n"
+								  "|         |         |\n"
+								  "|         |         |\n"
+								  "o---------o---------o\n"
+																);
+	EXPECT_EQ(std::string(board), board.ToString());
+	}							  
 }
 
 TEST(SixMensMorrisBoardTest, ResetBoardTest){
