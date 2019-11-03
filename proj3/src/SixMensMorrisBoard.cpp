@@ -26,7 +26,7 @@ CSixMensMorrisBoard::CSixMensMorrisBoard(char turn, const int unplaced[SIX_MENS_
 }
 
 bool CSixMensMorrisBoard::MillCreated(char player){
-    int PotentialMills[8][3] = {{0x0, 0x1, 0x2},
+    /*int PotentialMills[8][3] = {{0x0, 0x1, 0x2},
                                 {0x3, 0x4, 0x5},
                                 {0xA, 0xB, 0xC},
                                 {0xD, 0xE, 0xF},
@@ -54,27 +54,27 @@ bool CSixMensMorrisBoard::MillCreated(char player){
         if(CurrentMill and not PastMill){
             return true;   
         }
-    }
+    }*/
     return false;
 }
 
 bool CSixMensMorrisBoard::AdjacentPositions(int from, int to){
-    int Adjacents[SIX_MENS_MORRIS_POSITIONS] = {0x000A, 0x0015, 0x0202, 0x0090,
+    /*int Adjacents[SIX_MENS_MORRIS_POSITIONS] = {0x000A, 0x0015, 0x0202, 0x0090,
                                                 0x002A, 0x0110, 0x2081, 0x0448,
                                                 0x1220, 0x8104, 0x0880, 0x5400,
                                                 0x0900, 0x4040, 0xA800, 0x4200};
     
-    return Adjacents[from] & (1<<to);
+    return Adjacents[from] & (1<<to);*/
 }
 
 void CSixMensMorrisBoard::ResetBoard(){
-    for(int Index = 0; Index < SIX_MENS_MORRIS_PLAYERS; Index++){
+    /*for(int Index = 0; Index < SIX_MENS_MORRIS_PLAYERS; Index++){
         DUnplacedPieces[Index] = SIX_MENS_MORRIS_PIECES;
     }
     for(int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++){
         DPositions[Index] = SIX_MENS_MORRIS_EMPTY;
         DPreviousPositions[Index] = SIX_MENS_MORRIS_EMPTY;
-    }
+    }*/
 }
 
 char CSixMensMorrisBoard::PlayerTurn() const{
@@ -115,7 +115,7 @@ std::string CSixMensMorrisBoard::ToString() const{
         else if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_W){
             CapturedW--;   
         }
-    }
+    }                                                                                                                                                      //Deleted a space at WU to make it have only one space before it
     OutStream<<(DTurn == SIX_MENS_MORRIS_PLAYER_R ? ">RU:" : " RU:")<<DUnplacedPieces[0]<<" RC:"<<CapturedW<<(DTurn == SIX_MENS_MORRIS_PLAYER_W ? " >WU:" : "  WU:")<<DUnplacedPieces[1]<<" WC:"<<CapturedR<<std::endl;
     OutStream<<DPositions[0x0]<<"---------"<<DPositions[0x1]<<"---------"<<DPositions[0x2]<<"      0---1---2"<<std::endl;
     OutStream<<"|         |         |      | 3-4-5 |"<<std::endl;
@@ -138,7 +138,7 @@ CSixMensMorrisBoard::operator std::string() const{
     std::stringstream OutStream;
     int CapturedR, CapturedW;
     
-    CapturedR = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0];
+    CapturedR = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0]; //Something's probably wrong in these two lines
     CapturedW = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0];
     for(int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++){
         if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_R){
@@ -147,7 +147,7 @@ CSixMensMorrisBoard::operator std::string() const{
         else if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_W){
             CapturedW--;   
         }
-    }
+    }                                                                                                                                                       //Deleted a space at WU to make it have only one space before it
     OutStream<<(DTurn == SIX_MENS_MORRIS_PLAYER_R ? ">RU:" : " RU:")<<DUnplacedPieces[0]<<" RC:"<<CapturedW<<(DTurn == SIX_MENS_MORRIS_PLAYER_W ? " >WU:" : "  WU:")<<DUnplacedPieces[1]<<" WC:"<<CapturedR<<std::endl;
     OutStream<<DPositions[0x0]<<"---------"<<DPositions[0x1]<<"---------"<<DPositions[0x2]<<"      0---1---2"<<std::endl;
     OutStream<<"|         |         |      | 3-4-5 |"<<std::endl;
