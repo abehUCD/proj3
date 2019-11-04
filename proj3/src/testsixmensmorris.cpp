@@ -77,6 +77,35 @@ TEST(SixMensMorrisBoardTest, SetBoardTest){
 
 TEST(SixMensMorrisBoardTest, ResetBoardTest){
     // Needs to test that resetting to default board is correct
+	// Same chunk of code from the default board, because that's what resetting the board should do
+	CSixMensMorrisBoard board;
+	int UnplacedR = board.UnplacedPieces('R');
+	int UnplacedW = board.UnplacedPieces('W');
+
+	EXPECT_TRUE(UnplacedR == SIX_MENS_MORRIS_PIECES);
+	EXPECT_TRUE(UnplacedW == SIX_MENS_MORRIS_PIECES);
+
+	EXPECT_EQ(board.PlayerTurn(), SIX_MENS_MORRIS_PLAYER_R);
+	for (int index = 0; index < SIX_MENS_MORRIS_POSITIONS; index++) {
+		EXPECT_EQ(board.PlayerAtPosition(index), SIX_MENS_MORRIS_EMPTY);
+	}
+	EXPECT_EQ(std::string(board), ">RU:6 RC:0  WU:6 WC:0\n" //Added two spaces between legend and board
+		                          "o---------o---------o      0---1---2\n"
+		                          "|         |         |      | 3-4-5 |\n"
+		                          "|         |         |      6-7   8-9\n"
+		                          "|    o----o----o    |      | A-B-C |\n"
+		                          "|    |         |    |      D---E---F\n"
+		                          "|    |         |    |        LEGEND\n"
+		                          "o----o         o----o\n"
+		                          "|    |         |    |\n"
+		                          "|    |         |    |\n"
+		                          "|    o----o----o    |\n"
+		                          "|         |         |\n"
+		                          "|         |         |\n"
+		                          "o---------o---------o\n"
+	                                                             );
+	//EXPECT_FALSE(board.GameOver());
+	EXPECT_EQ(std::string(board), board.ToString());
 }
 
 TEST(SixMensMorrisBoardTest, PlacementTest){
