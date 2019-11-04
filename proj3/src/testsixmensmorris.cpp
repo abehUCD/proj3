@@ -48,7 +48,7 @@ TEST(SixMensMorrisBoardTest, SetBoardTest){
 												 SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY,
 												 SIX_MENS_MORRIS_PLAYER_W, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_PLAYER_W,
 												 SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY,
-											     SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_EMPTY
+											     SIX_MENS_MORRIS_PLAYER_R, SIX_MENS_MORRIS_EMPTY, SIX_MENS_MORRIS_EMPTY
 	};
 	CSixMensMorrisBoard board(turn, unplaced, positions, previous);
 	//EXPECT_EQ(board.PlayerTurn(), SIX_MENS_MORRIS_PLAYER_W);
@@ -56,20 +56,20 @@ TEST(SixMensMorrisBoardTest, SetBoardTest){
 		EXPECT_EQ(board.PlayerAtPosition(index), positions[index]);
 	EXPECT_EQ(board.UnplacedPieces(SIX_MENS_MORRIS_PLAYER_R), unplaced[0]);
 	EXPECT_EQ(board.UnplacedPieces(SIX_MENS_MORRIS_PLAYER_W), unplaced[1]);
-	EXPECT_EQ(std::string(board), ">RU:6 RC:0  WU:6 WC:0\n"
-								  "o---------o---------o      0---1---2\n"
+	EXPECT_EQ(std::string(board), " RU:2 RC:0 >WU:3 WC:0\n"                  //Changed board from default to the positions as shown above
+								  "R---------W---------R      0---1---2\n"
 								  "|         |         |      | 3-4-5 |\n"
 								  "|         |         |      6-7   8-9\n"
 								  "|    o----o----o    |      | A-B-C |\n"
 								  "|    |         |    |      D---E---F\n"
 								  "|    |         |    |        LEGEND\n"
-								  "o----o         o----o\n"
+								  "W----o         o----W\n"
 								  "|    |         |    |\n"
 								  "|    |         |    |\n"
 								  "|    o----o----o    |\n"
 								  "|         |         |\n"
 								  "|         |         |\n"
-								  "o---------o---------o\n"
+								  "R---------o---------R\n"
 																);
 	EXPECT_EQ(std::string(board), board.ToString());
 	}							  

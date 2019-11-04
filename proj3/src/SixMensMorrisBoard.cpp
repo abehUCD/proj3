@@ -26,7 +26,7 @@ CSixMensMorrisBoard::CSixMensMorrisBoard(char turn, const int unplaced[SIX_MENS_
 }
 
 bool CSixMensMorrisBoard::MillCreated(char player){
-    /*int PotentialMills[8][3] = {{0x0, 0x1, 0x2},
+    int PotentialMills[8][3] = {{0x0, 0x1, 0x2},
                                 {0x3, 0x4, 0x5},
                                 {0xA, 0xB, 0xC},
                                 {0xD, 0xE, 0xF},
@@ -54,31 +54,32 @@ bool CSixMensMorrisBoard::MillCreated(char player){
         if(CurrentMill and not PastMill){
             return true;   
         }
-    }*/
+    }
     return false;
 }
 
 bool CSixMensMorrisBoard::AdjacentPositions(int from, int to){
-    /*int Adjacents[SIX_MENS_MORRIS_POSITIONS] = {0x000A, 0x0015, 0x0202, 0x0090,
+    int Adjacents[SIX_MENS_MORRIS_POSITIONS] = {0x000A, 0x0015, 0x0202, 0x0090,
                                                 0x002A, 0x0110, 0x2081, 0x0448,
                                                 0x1220, 0x8104, 0x0880, 0x5400,
                                                 0x0900, 0x4040, 0xA800, 0x4200};
     
-    return Adjacents[from] & (1<<to);*/
+    return Adjacents[from] & (1<<to);
 }
 
 void CSixMensMorrisBoard::ResetBoard(){
-    /*for(int Index = 0; Index < SIX_MENS_MORRIS_PLAYERS; Index++){
+	DTurn = SIX_MENS_MORRIS_PLAYER_R; // This was added
+    for(int Index = 0; Index < SIX_MENS_MORRIS_PLAYERS; Index++){
         DUnplacedPieces[Index] = SIX_MENS_MORRIS_PIECES;
     }
     for(int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++){
         DPositions[Index] = SIX_MENS_MORRIS_EMPTY;
         DPreviousPositions[Index] = SIX_MENS_MORRIS_EMPTY;
-    }*/
+    }
 }
 
 char CSixMensMorrisBoard::PlayerTurn() const{
-    return toupper(DTurn);
+    return toupper(DTurn);                   //changed from toupper(DTurn)
 }
 
 char CSixMensMorrisBoard::PlayerAtPosition(int position) const{
@@ -109,7 +110,7 @@ std::string CSixMensMorrisBoard::ToString() const{
     CapturedR = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0];
     CapturedW = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[1];
     for(int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++){
-        if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_R){
+        if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_R){          //Changed Captured to ++ instead of --
             CapturedR--;   
         }
         else if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_W){
@@ -138,8 +139,8 @@ CSixMensMorrisBoard::operator std::string() const{
     std::stringstream OutStream;
     int CapturedR, CapturedW;
     
-    CapturedR = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0]; //Something's probably wrong in these two lines
-    CapturedW = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0];
+    CapturedR = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[0]; //Changed at CapturedW, from DUnplacedPieces[0] to DUnplacedPieces[1]
+    CapturedW = SIX_MENS_MORRIS_PIECES - DUnplacedPieces[1];
     for(int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++){
         if(DPositions[Index] == SIX_MENS_MORRIS_PLAYER_R){
             CapturedR--;   
@@ -204,7 +205,7 @@ bool CSixMensMorrisBoard::CanMove(char player, int where){
 
 bool CSixMensMorrisBoard::Move(char player, int from, int to){
     int UnplacedIndex = player == SIX_MENS_MORRIS_PLAYER_R ? 0 : 1;
-    if((player == DTurn) and (0 == DUnplacedPieces[UnplacedIndex])){
+    if((player == DTurn) and (0 >= DUnplacedPieces[UnplacedIndex])){ //Changed from 0 == DUnplacedPieces[UnplacedIndex]
         if((0 <= from) and (from < SIX_MENS_MORRIS_POSITIONS)){
             if(player == DPositions[from]){
                 if((0 <= to) and (to < SIX_MENS_MORRIS_POSITIONS) and (SIX_MENS_MORRIS_EMPTY ==  DPositions[to]) and AdjacentPositions(from, to)){
@@ -213,11 +214,13 @@ bool CSixMensMorrisBoard::Move(char player, int from, int to){
                     if(not MillCreated(player)){
                         DTurn = DTurn == SIX_MENS_MORRIS_PLAYER_R ? SIX_MENS_MORRIS_PLAYER_W : SIX_MENS_MORRIS_PLAYER_R;
                     }
+					std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                     return true;
                 }
             }
         }
     }
+	std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
     return false;
 }
 
