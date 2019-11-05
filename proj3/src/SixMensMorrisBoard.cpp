@@ -177,6 +177,7 @@ bool CSixMensMorrisBoard::Place(char player, int where){
                 }
                 DPositions[where] = player;
                 DUnplacedPieces[UnplacedIndex]--;
+				DTurn = DTurn == SIX_MENS_MORRIS_PLAYER_R ? SIX_MENS_MORRIS_PLAYER_W : SIX_MENS_MORRIS_PLAYER_R;
                 return true;
             }
         }
@@ -215,6 +216,7 @@ bool CSixMensMorrisBoard::Move(char player, int from, int to){
                         DTurn = DTurn == SIX_MENS_MORRIS_PLAYER_R ? SIX_MENS_MORRIS_PLAYER_W : SIX_MENS_MORRIS_PLAYER_R;
                     }
 					std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
+
                     return true;
                 }
             }
@@ -225,45 +227,66 @@ bool CSixMensMorrisBoard::Move(char player, int from, int to){
 }
 
 bool CSixMensMorrisBoard::Remove(char player, int from){
+	std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
     if(CanRemove(player)and (0 <= from) and (from < SIX_MENS_MORRIS_POSITIONS)){
+		std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
         char OtherPlayer = DTurn == SIX_MENS_MORRIS_PLAYER_R ? SIX_MENS_MORRIS_PLAYER_W : SIX_MENS_MORRIS_PLAYER_R;
+		std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
         if(DPositions[from] == OtherPlayer){
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
             DPositions[from] = SIX_MENS_MORRIS_EMPTY;
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
             int UnplacedIndex = OtherPlayer == SIX_MENS_MORRIS_PLAYER_R ? 0 : 1;
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
             int PlayerCount = DUnplacedPieces[UnplacedIndex];
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 
             for(int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++){
+				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                 if(DPositions[Index] == OtherPlayer){
+					std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                     PlayerCount++;
                 }
             }
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
             if(PlayerCount <= 2){
+				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                 DTurn = tolower(DTurn);
+				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                 return true;
             }
             bool HasMove = false;
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
             for(int From = 0; From < SIX_MENS_MORRIS_POSITIONS; From++){
+				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                 if(DPositions[From] == OtherPlayer){
+					std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                     for(int To = 0; To < SIX_MENS_MORRIS_POSITIONS; To++){
                         if(From == To){
+							std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                             continue;    
                         }
                         if((SIX_MENS_MORRIS_EMPTY == DPositions[To]) and AdjacentPositions(From,To)){
+							std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                             HasMove = true;
                             break;
                         }
                     }
                     if(HasMove){
+						std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                         break;   
                     }
                 }       
             }
             if(HasMove){
+				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                 DTurn = OtherPlayer;
             }
             else{
+				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
                 DTurn = tolower(DTurn);   
             }
+			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
             return true;
         }
     }
