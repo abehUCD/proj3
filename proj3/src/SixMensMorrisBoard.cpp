@@ -59,12 +59,12 @@ bool CSixMensMorrisBoard::MillCreated(char player) {
 }
 
 bool CSixMensMorrisBoard::AdjacentPositions(int from, int to) {
-	int Adjacents[SIX_MENS_MORRIS_POSITIONS] = { 0x000A, 0x0015, 0x0202, 0x0090,
+	int Adjacents[SIX_MENS_MORRIS_POSITIONS] = { 0x0042, 0x0015, 0x0202, 0x0090, //changed first element from  0x000A
 												0x002A, 0x0110, 0x2081, 0x0448,
 												0x1220, 0x8104, 0x0880, 0x5400,
 												0x0900, 0x4040, 0xA800, 0x4200 };
 
-	return Adjacents[from] & (1 << to);
+	return Adjacents[from] & (1 << to); //change from (1 << to)
 }
 
 void CSixMensMorrisBoard::ResetBoard() {
@@ -197,6 +197,7 @@ bool CSixMensMorrisBoard::CanRemove(char player) {
 }
 
 bool CSixMensMorrisBoard::CanMove(char player, int where) {
+	/*int CanMoveIter;*/
 	if ((SIX_MENS_MORRIS_PLAYER_R == player) or (SIX_MENS_MORRIS_PLAYER_W == player)) {
 		if ((0 <= where) and (where < SIX_MENS_MORRIS_POSITIONS)) {
 			if (player == DPositions[where]) { //changed from player to empty
@@ -208,6 +209,22 @@ bool CSixMensMorrisBoard::CanMove(char player, int where) {
 			}
 		}
 	}
+	//for (int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++) {
+	//	if (player == PlayerAtPosition(Index)) {
+	//		if ((SIX_MENS_MORRIS_PLAYER_R == player) or (SIX_MENS_MORRIS_PLAYER_W == player)) {
+	//			if ((0 <= where) and (where < SIX_MENS_MORRIS_POSITIONS)) {
+	//				if (player == DPositions[where]) { //changed from player to empty
+	//					for (int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++) {
+	//						if ((SIX_MENS_MORRIS_EMPTY == (DPositions[Index])) and (AdjacentPositions(where, Index))) { //Added parentheses around everything
+	//							return true;
+	//						}
+	//					}
+	//				}
+	//			}
+	//		}
+
+	//	}
+	//}
 	return false;
 }
 
@@ -238,66 +255,45 @@ bool CSixMensMorrisBoard::Move(char player, int from, int to) {
 }
 
 bool CSixMensMorrisBoard::Remove(char player, int from) {
-	std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 	if (CanRemove(player) and (0 <= from) and (from < SIX_MENS_MORRIS_POSITIONS)) {
-		std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 		char OtherPlayer = DTurn == SIX_MENS_MORRIS_PLAYER_R ? SIX_MENS_MORRIS_PLAYER_W : SIX_MENS_MORRIS_PLAYER_R;
-		std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 		if (DPositions[from] == OtherPlayer) {
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 			DPositions[from] = SIX_MENS_MORRIS_EMPTY;
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 			int UnplacedIndex = OtherPlayer == SIX_MENS_MORRIS_PLAYER_R ? 0 : 1;
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 			int PlayerCount = DUnplacedPieces[UnplacedIndex];
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 
 			for (int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++) {
-				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 				if (DPositions[Index] == OtherPlayer) {
-					std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 					PlayerCount++;
 				}
 			}
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 			if (PlayerCount <= 2) {
-				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 				DTurn = tolower(DTurn);
-				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 				return true;
 			}
 			bool HasMove = false;
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 			for (int From = 0; From < SIX_MENS_MORRIS_POSITIONS; From++) {
-				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 				if (DPositions[From] == OtherPlayer) {
-					std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 					for (int To = 0; To < SIX_MENS_MORRIS_POSITIONS; To++) {
 						if (From == To) {
-							std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 							continue;
 						}
 						if ((SIX_MENS_MORRIS_EMPTY == DPositions[To]) and AdjacentPositions(From, To)) {
-							std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 							HasMove = true;
 							break;
 						}
 					}
 					if (HasMove) {
-						std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 						break;
 					}
 				}
 			}
 			if (HasMove) {
-				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 				DTurn = OtherPlayer;
 			}
 			else {
-				std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 				DTurn = tolower(DTurn);
 			}
-			std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 			return true;
 		}
 	}
