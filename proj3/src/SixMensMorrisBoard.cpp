@@ -201,7 +201,7 @@ bool CSixMensMorrisBoard::CanMove(char player, int where) {
 		if ((0 <= where) and (where < SIX_MENS_MORRIS_POSITIONS)) {
 			if (player == DPositions[where]) { //changed from player to empty
 				for (int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++) {
-					if ((SIX_MENS_MORRIS_EMPTY == (DPositions[Index])) and (AdjacentPositions(where, Index))) { //Seems 
+					if ((SIX_MENS_MORRIS_EMPTY == (DPositions[Index])) and (AdjacentPositions(where, Index))) { //Added parentheses around everything
 						return true;
 					}
 				}
