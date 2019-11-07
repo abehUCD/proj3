@@ -54,6 +54,15 @@ bool CSixMensMorrisBoard::MillCreated(char player) {
 		if (CurrentMill and (not PastMill)) {
 			return true;
 		}
+		if (CurrentMill and PastMill) {
+			if ((DUnplacedPieces[0] == 0) and (DUnplacedPieces[1] == 0)) {
+				for (int Index = 0; Index < SIX_MENS_MORRIS_POSITIONS; Index++) {
+					if (DPositions[Index] != DPreviousPositions[Index]) {
+						return true;
+					}
+				}
+			}
+		}
 	}
 	return false;
 }
@@ -192,7 +201,6 @@ bool CSixMensMorrisBoard::Place(char player, int where) {
 }
 
 bool CSixMensMorrisBoard::CanRemove(char player) {
-	std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
 	return ((DTurn == player) and MillCreated(DTurn));
 }
 
@@ -239,7 +247,7 @@ bool CSixMensMorrisBoard::Move(char player, int from, int to) {
 					if (not MillCreated(player)) {
 						DTurn = DTurn == SIX_MENS_MORRIS_PLAYER_R ? SIX_MENS_MORRIS_PLAYER_W : SIX_MENS_MORRIS_PLAYER_R;
 					}
-					if (MillCreated(DTurn)) { //This was added
+					if (MillCreated(player)) { //This was added
 						CanRemove(player);
 						return true;
 
@@ -250,7 +258,36 @@ bool CSixMensMorrisBoard::Move(char player, int from, int to) {
 			}
 		}
 	}
-	std::cout << "In " << __FILE__ << " @ " << __LINE__ << std::endl;
+
+	/*bool HasMove = false;
+	for (int From = 0; From < SIX_MENS_MORRIS_POSITIONS; From++) {
+		if (DPositions[From] == player) {
+			for (int To = 0; To < SIX_MENS_MORRIS_POSITIONS; To++) {
+				if (From == To) {
+					continue;
+				}
+				if ((SIX_MENS_MORRIS_EMPTY == DPositions[To]) and AdjacentPositions(From, To)) {
+					HasMove = true;
+					break;
+				}
+			}
+			if (HasMove) {
+				break;
+			}
+		}
+	}
+	if (!HasMove) {
+		DTurn = tolower(DTurn);
+		return false;
+	}*/
+
+	//if (HasMove) {
+	//	//DTurn = OtherPlayer;
+	//}
+	//else {
+	//	DTurn = tolower(DTurn);
+	//}
+	/*return true;*/
 	return false;
 }
 
