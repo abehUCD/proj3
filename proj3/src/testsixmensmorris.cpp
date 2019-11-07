@@ -359,7 +359,5 @@ TEST(SixMensMorrisBoardTest, NoMoveGameOverTest) {
 
 TEST(SixMensMorrisBoardTest, BadParametersTest) {
 	// Needs to test that correct return upon bad parameters
-	CSixMensMorrisBoard board;
-	EXPECT_EQ(board.Move('W', 20, 10), '\0');
 }
 
